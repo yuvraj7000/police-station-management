@@ -1,7 +1,7 @@
 import User from '../models/user.model.js';
 
 const registerUser = async (req, res) => {
-    const { name, username, password } = req.body;
+    const { name, username, password,email } = req.body;
   
     if (!name || !username || !password) {
       return res.status(400).json({ message: 'All fields are required' });
@@ -17,6 +17,7 @@ const registerUser = async (req, res) => {
       name,
       username: username.toLowerCase(),
       password,
+      email,
     });
   
     await user.save();
