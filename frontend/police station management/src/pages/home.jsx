@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import sp from './sp.jpg';
 
 const Home = () => {
   return (
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: "url('https://www.pudukkottaiinfo.com/login/uploads/register/police%202.jpg')" }}
+      style={{ backgroundImage: `url(${sp})` }}
     >
       <div className="bg-black bg-opacity-50 p-8 rounded-lg shadow-lg text-center">
-        <h1 className="text-4xl font-bold text-white mb-4">Police Station Management</h1>
+        <h1 className="text-4xl font-bold text-white mb-4">eCopStation</h1>
         <p className="text-white text-lg mb-6">Welcome to the Police Station Management website</p>
         <div className="space-y-4">
           <Link to="/reports">
@@ -18,7 +19,7 @@ const Home = () => {
           </Link>
           <Link to="/createReport">
             <button className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Create Reports
+              Create FIR
             </button>
           </Link>
           <Link to="/manageMember">

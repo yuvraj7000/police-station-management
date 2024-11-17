@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import pms from './pms.png';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +10,13 @@ const Nav = () => {
   };
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-800 px-20">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-2xl font-bold">
-          <a href="/">Station Logo</a>
+        <div className="text-white text-2xl font-bold flex justify-center items-center">
+        <Link to="/">
+            <img src={pms} alt="PMS Logo" className="h-20 w-auto" />
+          </Link>
+          <span>eCopStation</span>
         </div>
         <div className="hidden md:flex space-x-4">
         <a href="/" className="text-white hover:text-gray-400">Home</a>

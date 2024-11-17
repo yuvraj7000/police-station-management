@@ -16,7 +16,7 @@ const ManageReports = () => {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (password === 'pms123') {
+    if (password === 'ecop') {
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -51,6 +51,18 @@ const ManageReports = () => {
       setStatus('');
     } catch (err) {
       setError(err.response ? err.response.data.message : 'Server error');
+    }
+  };
+
+  const handleDeleteReport = async (reportId) => {
+    if (window.confirm('Are you sure you want to delete this report?')) {
+      try {
+        const response = await axios.post('http://localhost:5000/report/delete', { id: reportId });
+        setReports(reports.filter(report => report._id !== reportId));
+        alert(response.data.message);
+      } catch (err) {
+        setError(err.response ? err.response.data.message : 'Server error');
+      }
     }
   };
 
@@ -100,7 +112,6 @@ const ManageReports = () => {
           <div key={report._id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">{report.title}</h2>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Reported By:</span> {report.reportBy}</p>
-            <p className="text-gray-600 mb-2"><span className="font-semibold">Details:</span> {report.details}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Address:</span> {report.address}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Mobile No:</span> {report.mobileNo}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Recorded By:</span> {report.recordedBy}</p>
@@ -124,6 +135,12 @@ const ManageReports = () => {
                 onClick={() => handleChangeStatus(report._id)}
               >
                 Change Status
+              </button>
+              <button
+                className="bg-red-500 m-1 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                onClick={() => handleDeleteReport(report._id)}
+              >
+                Delete Report
               </button>
             </div>
           </div>

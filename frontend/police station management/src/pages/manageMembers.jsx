@@ -21,7 +21,7 @@ const ManageMembers = () => {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (password === 'pms123') {
+    if (password === 'ecop') {
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -45,6 +45,18 @@ const ManageMembers = () => {
       setNewMember({ name: '', username: '', email: '', password: '' });
     } catch (err) {
       setError(err.response ? err.response.data.message : 'Server error');
+    }
+  };
+
+  const handleDeleteMember = async (username) => {
+    if (window.confirm(`Are you sure you want to delete the member with username: ${username}?`)) {
+      try {
+        const response = await axios.post('http://localhost:5000/user/delete', { username });
+        setMessage(response.data.message);
+        setMembers(members.filter(member => member.username !== username));
+      } catch (err) {
+        setError(err.response ? err.response.data.message : 'Server error');
+      }
     }
   };
 
@@ -112,6 +124,12 @@ const ManageMembers = () => {
             <h2 className="text-2xl font-bold mb-4 text-gray-800">{member.name}</h2>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Username:</span> {member.username}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Email:</span> {member.email}</p>
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+              onClick={() => handleDeleteMember(member.username)}
+            >
+              Delete Member
+            </button>
           </div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/login';
 import Home from './pages/home';
@@ -17,14 +17,22 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    const auth = localStorage.getItem('isAuthenticated');
+    if (auth) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (password === 'policestation') {
+    if (password === 'ecop') {
       setIsAuthenticated(true);
+      localStorage.setItem('isAuthenticated', 'true');
       setError('');
     } else {
       setError('Incorrect password');

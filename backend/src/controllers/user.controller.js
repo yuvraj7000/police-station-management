@@ -38,5 +38,20 @@ const registerUser = async (req, res) => {
       return res.status(500).json({ message: 'Server error', error });
     }
   };
+  const deleteUserByUsername = async (req, res) => {
+    const { username } = req.body;
+  
+    try {
+      const user = await User.findOneAndDelete({ username: username.toLowerCase() });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      return res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error });
+    }
+  };
 
-  export { registerUser, getAllUsers };
+
+  export { registerUser, getAllUsers, deleteUserByUsername };
