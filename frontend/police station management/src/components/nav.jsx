@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import pms from './pms.png';
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);

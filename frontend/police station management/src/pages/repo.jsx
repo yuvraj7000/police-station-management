@@ -1,59 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Rep = () => {
-  const [reportId, setReportId] = useState('');
+  const { id } = useParams();
   const [report, setReport] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    setReportId(e.target.value);
-  };
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/report/getReport', { id });
+        setReport(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.response ? err.response.data.message : 'Server error');
+        setLoading(false);
+      }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post('http://localhost:5000/report/getReport', { id: reportId });
-      setReport(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError(err.response ? err.response.data.message : 'Server error');
-      setLoading(false);
-    }
-  };
+    fetchReport();
+  }, [id]);
+
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center h-screen">Error: {error}</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Get Report</h1>
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reportId">
-            Report ID
-          </label>
-          <input
-            type="text"
-            id="reportId"
-            name="reportId"
-            value={reportId}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Get Report
-          </button>
-        </div>
-        {loading && <p className="text-center mt-4">Loading...</p>}
-        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
-      </form>
       {report && (
         <div className="mt-8 bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">{report.title}</h2>

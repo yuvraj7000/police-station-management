@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
@@ -45,15 +46,17 @@ const Reports = () => {
           <div key={report._id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">{report.title}</h2>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Reported By:</span> {report.reportBy}</p>
-            <p className="text-gray-600 mb-2"><span className="font-semibold">Details:</span> {`${report.details.slice(0, 20)} ...`}</p>
+            <p className="text-gray-600 mb-2"><span className="font-semibold">Details:</span> {truncateDetails(report.details, 20)}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Address:</span> {report.address}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Mobile No:</span> {report.mobileNo}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Recorded By:</span> {report.recordedBy}</p>
             <p className="text-gray-600 mb-2"><span className="font-semibold">Date:</span> {new Date(report.date).toLocaleDateString()}</p>
             <p className="text-gray-600 mb-4"><span className="font-semibold">Status:</span> {report.status}</p>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              View Report Details
-            </button>
+            <Link to={`/rep/${report._id}`}>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                View Report Details
+              </button>
+            </Link>
           </div>
         ))}
       </div>
