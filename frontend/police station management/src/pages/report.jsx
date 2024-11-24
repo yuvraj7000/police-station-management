@@ -10,7 +10,7 @@ const Reports = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/report/all');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/report/all`);
         setReports(response.data);
         setLoading(false);
       } catch (err) {

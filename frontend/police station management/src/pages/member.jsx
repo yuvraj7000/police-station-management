@@ -9,7 +9,7 @@ const Members = () => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/user/all');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/all`);
         setMembers(response.data);
         setLoading(false);
       } catch (err) {

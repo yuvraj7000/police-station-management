@@ -28,7 +28,7 @@ const ManageReports = () => {
     if (isAuthenticated) {
       const fetchReports = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/report/all');
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/report/all`);
           setReports(response.data);
           setLoading(false);
         } catch (err) {
@@ -43,7 +43,7 @@ const ManageReports = () => {
 
   const handleChangeStatus = async (reportId) => {
     try {
-      const response = await axios.post('http://localhost:5000/report/status', {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/report/status`, {
         reportId,
         status
       });
@@ -57,7 +57,7 @@ const ManageReports = () => {
   const handleDeleteReport = async (reportId) => {
     if (window.confirm('Are you sure you want to delete this report?')) {
       try {
-        const response = await axios.post('http://localhost:5000/report/delete', { id: reportId });
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/report/delete`, { id: reportId });
         setReports(reports.filter(report => report._id !== reportId));
         alert(response.data.message);
       } catch (err) {

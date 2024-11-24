@@ -11,7 +11,7 @@ const Rep = () => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/report/getReport', { id });
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/report/getReport`, { id });
         setReport(response.data);
         setLoading(false);
       } catch (err) {

@@ -39,7 +39,7 @@ const ManageMembers = () => {
   const handleNewMemberSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/user/register', newMember);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/register`, newMember);
       setMessage(response.data.message);
       setMembers([...members, response.data.user]);
       setNewMember({ name: '', username: '', email: '', password: '' });
@@ -51,7 +51,7 @@ const ManageMembers = () => {
   const handleDeleteMember = async (username) => {
     if (window.confirm(`Are you sure you want to delete the member with username: ${username}?`)) {
       try {
-        const response = await axios.post('http://localhost:5000/user/delete', { username });
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/delete`, { username });
         setMessage(response.data.message);
         setMembers(members.filter(member => member.username !== username));
       } catch (err) {
@@ -64,7 +64,7 @@ const ManageMembers = () => {
     if (isAuthenticated) {
       const fetchMembers = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/user/all');
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/all`);
           setMembers(response.data);
           setLoading(false);
         } catch (err) {
